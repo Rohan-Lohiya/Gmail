@@ -1,0 +1,173 @@
+import Link from "next/link";
+import type { ReactNode } from "react";
+import {
+  Archive,
+  ArrowLeft,
+  ChevronDown,
+  Forward,
+  MailOpen,
+  MoreVertical,
+  Reply,
+  Smile,
+  Star,
+  Trash2,
+} from "lucide-react";
+
+import { AttachmentPill } from "@/components/gmail/attachment-pill";
+import { MailAvatar } from "@/components/gmail/mail-avatar";
+import { MobileScreen } from "@/components/gmail/mobile-screen";
+import { PdfAttachmentPreview } from "@/components/gmail/pdf-attachment-preview";
+import type { MailItem } from "@/types/mail";
+
+interface MailDetailViewProps {
+  mail: MailItem;
+}
+
+function IconButton({
+  children,
+  label,
+}: {
+  children: ReactNode;
+  label: string;
+}) {
+  return (
+    <button
+      type="button"
+      aria-label={label}
+      className="inline-flex h-10 w-10 items-center justify-center rounded-full text-gmail-text"
+    >
+      {children}
+    </button>
+  );
+}
+
+export function MailDetailView({ mail }: MailDetailViewProps) {
+  const pdfAttachment = mail.attachments.find((attachment) => attachment.type === "pdf");
+  const nonPdfAttachments = mail.attachments.filter((attachment) => attachment.type !== "pdf");
+
+  return (
+    <MobileScreen>
+      <header className="px-4 pt-4">
+        <div className="flex items-center justify-between">
+          <Link
+            href="/"
+            aria-label="Back to inbox"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full text-gmail-text"
+          >
+            <ArrowLeft className="h-7 w-7" strokeWidth={2.2} />
+          </Link>
+          <div className="flex items-center gap-1">
+            <IconButton label="Archive">
+              <Archive className="h-7 w-7" />
+            </IconButton>
+            <IconButton label="Delete">
+              <Trash2 className="h-7 w-7" />
+            </IconButton>
+            <IconButton label="Mark unread">
+              <MailOpen className="h-7 w-7" />
+            </IconButton>
+            <IconButton label="More options">
+              <MoreVertical className="h-7 w-7" />
+            </IconButton>
+          </div>
+        </div>
+      </header>
+
+      <main className="flex-1 overflow-y-auto px-4 pb-4 pt-6">
+        <div className="flex items-start justify-between gap-3">
+          <h1 className="text-[2.35rem] font-medium leading-tight text-gmail-text">{mail.subject}</h1>
+          <button type="button" aria-label="Star" className="pt-1 text-[#9aa0a6]">
+            <Star className="h-10 w-10" />
+          </button>
+        </div>
+
+        <div className="mt-2 inline-flex rounded-xl bg-[#e8eaed] px-3 py-1 text-[0.95rem] font-medium text-[#1f1f1f]">
+          {mail.labels[0]}
+        </div>
+
+        <article className="mt-5 rounded-3xl bg-gmail-card px-4 py-5 shadow-[0_0_0_1px_rgba(255,255,255,0.03)]">
+          <div className="flex items-start gap-3">
+            <MailAvatar avatar={mail.avatar} size="detail" />
+            <div className="min-w-0 flex-1">
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <p className="text-[1.65rem] font-medium text-gmail-text">
+                    {mail.sender}
+                    <span className="ml-2 text-[1.1rem] font-normal text-gmail-secondary">
+                      {mail.date}
+                    </span>
+                  </p>
+                  <button
+                    type="button"
+                    className="inline-flex items-center gap-1 text-[1.1rem] text-gmail-secondary"
+                  >
+                    <span>{mail.toLine}</span>
+                    <ChevronDown className="h-5 w-5" />
+                  </button>
+                </div>
+
+                <div className="flex items-center gap-1 text-gmail-secondary">
+                  <IconButton label="React with emoji">
+                    <Smile className="h-7 w-7" />
+                  </IconButton>
+                  <IconButton label="Reply">
+                    <Reply className="h-7 w-7" />
+                  </IconButton>
+                  <IconButton label="Message options">
+                    <MoreVertical className="h-7 w-7" />
+                  </IconButton>
+                </div>
+              </div>
+
+              <div className="mt-6 space-y-5 text-[1.35rem] leading-snug text-gmail-text">
+                {mail.body.map((line, index) => {
+                  if (!line) {
+                    return <div key={`break-${index}`} className="h-4" />;
+                  }
+
+                  return <p key={`${line}-${index}`}>{line}</p>;
+                })}
+              </div>
+
+              {pdfAttachment ? <PdfAttachmentPreview attachment={pdfAttachment} /> : null}
+
+              {nonPdfAttachments.length ? (
+                <div className="mt-6 flex flex-wrap gap-3">
+                  {nonPdfAttachments.map((attachment) => (
+                    <AttachmentPill key={attachment.id} attachment={attachment} asLink />
+                  ))}
+                </div>
+              ) : null}
+            </div>
+          </div>
+        </article>
+      </main>
+
+      <footer className="px-4 pb-6 pt-4">
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            className="inline-flex h-16 flex-1 items-center justify-center gap-2 rounded-full bg-[#d7d9de] text-[1.35rem] font-medium text-[#232529]"
+          >
+            <Reply className="h-6 w-6" />
+            Reply
+          </button>
+          <button
+            type="button"
+            className="inline-flex h-16 flex-1 items-center justify-center gap-2 rounded-full bg-[#d7d9de] text-[1.35rem] font-medium text-[#232529]"
+          >
+            <Forward className="h-6 w-6" />
+            Forward
+          </button>
+          <button
+            type="button"
+            aria-label="Emoji reactions"
+            className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-[#d7d9de] text-[#232529]"
+          >
+            <Smile className="h-7 w-7" />
+          </button>
+        </div>
+      </footer>
+    </MobileScreen>
+  );
+}
