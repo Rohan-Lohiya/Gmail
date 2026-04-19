@@ -91,38 +91,6 @@ export const defaultMails: MailItem[] = [
     ],
   },
   {
-    id: "triksha-offer-letter",
-    sender: "Triksha",
-    avatar: {
-      variant: "default",
-      bgColor: "#9aa0a6",
-      textColor: "#f1f3f4",
-    },
-    subject: "Triksha Offer Letter - Full Stack Developer Intern",
-    preview: "We are pleased to offer you the role of Full Stack Developer Intern.",
-    body: [
-      "Dear Rohan Lohiya,",
-      "",
-      "We are pleased to offer you the role of Full Stack Developer Intern at Triksha.",
-      "Please review the attached letter for complete terms.",
-      "",
-      "Regards,",
-      "People Operations",
-      "Triksha",
-    ],
-    date: "6/6/2025",
-    labels: ["Inbox"],
-    toLine: "to me",
-    attachments: [
-      {
-        id: "offer-letter-pdf",
-        name: "Rohan Lohiya offer letter.pdf",
-        type: "pdf",
-        url: "/attachments/rohan-lohiya-offer-letter.pdf",
-      },
-    ],
-  },
-  {
     id: "google-cloud-product-update",
     sender: "Google Cloud",
     avatar: {

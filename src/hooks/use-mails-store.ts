@@ -29,11 +29,20 @@ let cachedRaw: string | null | undefined;
 let cachedSnapshot: MailItem[] = defaultSortedMails;
 
 function mergeWithDefaultMails(storedMails: MailItem[]): MailItem[] {
-  const storedById = new Map(storedMails.map((mail) => [mail.id, mail]));
-  const merged = [...storedMails];
+  const defaultById = new Map(defaultSortedMails.map((mail) => [mail.id, mail]));
+  const merged: MailItem[] = [];
+
+  for (const storedMail of storedMails) {
+    // Keep customized first mail even if defaults change, but drop deleted defaults.
+    if (storedMail.id === FIRST_MAIL_ID || defaultById.has(storedMail.id)) {
+      merged.push(storedMail);
+    }
+  }
+
+  const mergedById = new Map(merged.map((mail) => [mail.id, mail]));
 
   for (const defaultMail of defaultSortedMails) {
-    if (!storedById.has(defaultMail.id)) {
+    if (!mergedById.has(defaultMail.id)) {
       merged.push(defaultMail);
     }
   }
