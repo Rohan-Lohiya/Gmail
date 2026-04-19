@@ -10,15 +10,15 @@ import {
   X,
 } from "lucide-react";
 
-import { useMailsStore } from "@/hooks/use-mails-store";
+import { useProfileImageStore } from "@/hooks/use-profile-image-store";
 
 export default function AccountPage() {
-  const { firstMail } = useMailsStore();
-  const profileImage = firstMail?.avatar.imageUrl;
+  const { profileImageUrl } = useProfileImageStore();
+  const profileImage = profileImageUrl || undefined;
 
   return (
     <div className="min-h-screen bg-gmail-bg">
-      <div className="mx-auto flex min-h-screen w-full max-w-[430px] flex-col bg-gmail-bg px-4 pb-6 pt-5">
+      <div className="mx-auto flex min-h-dvh w-full max-w-[430px] flex-col bg-gmail-bg px-3 pb-[calc(env(safe-area-inset-bottom)+1rem)] pt-3 sm:px-4 sm:pb-6 sm:pt-5">
         <header className="flex items-center justify-end">
           <Link
             href="/"
@@ -31,9 +31,11 @@ export default function AccountPage() {
 
         <main className="flex-1 pb-4 pt-2">
           <section className="text-center">
-            <p className="text-[1.9rem] font-medium text-gmail-text">sugam7212@gmail.com</p>
+            <p className="text-[clamp(1.35rem,5.2vw,1.9rem)] font-medium text-gmail-text">
+              sugam7212@gmail.com
+            </p>
 
-            <div className="relative mx-auto mt-4 h-28 w-28 rounded-full bg-[#13202d] p-[3px]">
+            <div className="relative mx-auto mt-4 h-24 w-24 rounded-full bg-[#13202d] p-[3px] sm:h-28 sm:w-28">
               {profileImage ? (
                 <div
                   className="h-full w-full rounded-full border-[2px] border-[#2fbc53] bg-cover bg-center"
@@ -48,19 +50,19 @@ export default function AccountPage() {
               </span>
             </div>
 
-            <h1 className="mt-4 text-[2.8rem] font-medium text-gmail-text">Hi, Utkarsh!</h1>
+            <h1 className="mt-4 text-[clamp(2rem,8vw,2.8rem)] font-medium text-gmail-text">Hi, Utkarsh!</h1>
 
             <button
               type="button"
-              className="mt-4 inline-flex h-14 w-full items-center justify-center rounded-full border border-gmail-chip-border bg-transparent text-[1.3rem] font-medium text-gmail-text"
+              className="mt-4 inline-flex h-12 w-full items-center justify-center rounded-full border border-gmail-chip-border bg-transparent px-3 text-[clamp(0.95rem,4vw,1.3rem)] font-medium text-gmail-text sm:h-14"
             >
               Manage your Google Account
             </button>
           </section>
 
           <section className="mt-6 overflow-hidden rounded-[26px] bg-gmail-card shadow-[0_0_0_1px_rgba(255,255,255,0.05)]">
-            <div className="flex items-center justify-between border-b border-white/10 px-5 py-4">
-              <h2 className="text-[1.5rem] font-medium text-gmail-text">Switch account</h2>
+            <div className="flex items-center justify-between border-b border-white/10 px-4 py-3 sm:px-5 sm:py-4">
+              <h2 className="text-[clamp(1.2rem,4.8vw,1.5rem)] font-medium text-gmail-text">Switch account</h2>
               <button
                 type="button"
                 aria-label="Collapse account list"
@@ -71,61 +73,63 @@ export default function AccountPage() {
             </div>
 
             <div className="divide-y divide-white/10">
-              <button type="button" className="flex w-full items-center gap-4 px-5 py-4 text-left">
-                <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-[#8d5cf5] text-sm font-bold text-[#efebff]">
+              <button type="button" className="flex w-full items-center gap-3 px-4 py-3 text-left sm:gap-4 sm:px-5 sm:py-4">
+                <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#8d5cf5] text-sm font-bold text-[#efebff] sm:h-12 sm:w-12">
                   U
                 </span>
                 <span className="min-w-0 flex-1">
-                  <span className="block truncate text-[1.2rem] font-medium text-gmail-text">
+                  <span className="block truncate text-[clamp(1rem,4vw,1.2rem)] font-medium text-gmail-text">
                     UTKARSH UTKARSH
                   </span>
-                  <span className="block truncate text-[1rem] text-gmail-secondary">utkarsh22b@iiitg.ac.in</span>
+                  <span className="block truncate text-[clamp(0.85rem,3.3vw,1rem)] text-gmail-secondary">
+                    utkarsh22b@iiitg.ac.in
+                  </span>
                 </span>
               </button>
 
-              <button type="button" className="flex w-full items-center gap-4 px-5 py-4 text-left">
-                <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-[#2e8d2d] text-[1.3rem] font-medium text-[#d8f3d7]">
+              <button type="button" className="flex w-full items-center gap-3 px-4 py-3 text-left sm:gap-4 sm:px-5 sm:py-4">
+                <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#2e8d2d] text-[1.1rem] font-medium text-[#d8f3d7] sm:h-12 sm:w-12 sm:text-[1.3rem]">
                   T
                 </span>
                 <span className="min-w-0 flex-1">
-                  <span className="block truncate text-[1.2rem] font-medium text-gmail-text">Tony Stark</span>
-                  <span className="block truncate text-[1rem] text-gmail-secondary">
+                  <span className="block truncate text-[clamp(1rem,4vw,1.2rem)] font-medium text-gmail-text">Tony Stark</span>
+                  <span className="block truncate text-[clamp(0.85rem,3.3vw,1rem)] text-gmail-secondary">
                     starktony1223555@gmail.com
                   </span>
                 </span>
               </button>
 
-              <button type="button" className="flex w-full items-center gap-4 px-5 py-4 text-left">
-                <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-[#2d3136] text-gmail-text">
+              <button type="button" className="flex w-full items-center gap-3 px-4 py-3 text-left sm:gap-4 sm:px-5 sm:py-4">
+                <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#2d3136] text-gmail-text sm:h-12 sm:w-12">
                   <Plus className="h-6 w-6" />
                 </span>
-                <span className="text-[1.2rem] font-medium text-gmail-text">Add another account</span>
+                <span className="text-[clamp(1rem,4vw,1.2rem)] font-medium text-gmail-text">Add another account</span>
               </button>
 
-              <button type="button" className="flex w-full items-center gap-4 px-5 py-4 text-left">
-                <span className="inline-flex h-12 w-12 items-center justify-center text-gmail-secondary">
+              <button type="button" className="flex w-full items-center gap-3 px-4 py-3 text-left sm:gap-4 sm:px-5 sm:py-4">
+                <span className="inline-flex h-10 w-10 items-center justify-center text-gmail-secondary sm:h-12 sm:w-12">
                   <UserCog className="h-6 w-6" />
                 </span>
-                <span className="text-[1.2rem] font-medium text-gmail-text">
+                <span className="text-[clamp(1rem,4vw,1.2rem)] font-medium text-gmail-text">
                   Manage accounts on this device
                 </span>
               </button>
             </div>
           </section>
 
-          <section className="mt-5 rounded-[26px] bg-gmail-card px-5 py-5 shadow-[0_0_0_1px_rgba(255,255,255,0.05)]">
+          <section className="mt-5 rounded-[26px] bg-gmail-card px-4 py-4 shadow-[0_0_0_1px_rgba(255,255,255,0.05)] sm:px-5 sm:py-5">
             <div className="flex items-center gap-2 text-gmail-text">
               <Cloud className="h-5 w-5 text-[#8ab4f8]" />
-              <span className="text-[1.1rem] font-medium">0% of 5 TB used</span>
+              <span className="text-[clamp(0.95rem,3.8vw,1.1rem)] font-medium">0% of 5 TB used</span>
             </div>
 
             <div className="mt-3 h-1.5 rounded-full bg-[#3a3f46]">
               <div className="h-full w-[4%] rounded-full bg-[#f28b82]" />
             </div>
 
-            <p className="mt-3 text-[1rem] text-gmail-secondary">2.05 GB of 5 TB</p>
+            <p className="mt-3 text-[clamp(0.88rem,3.4vw,1rem)] text-gmail-secondary">2.05 GB of 5 TB</p>
 
-            <div className="mt-5 flex items-center gap-5 text-[1.15rem] font-medium text-[#f28b82]">
+            <div className="mt-5 flex items-center gap-5 text-[clamp(0.95rem,3.9vw,1.15rem)] font-medium text-[#f28b82]">
               <button type="button">Get storage</button>
               <button type="button">Clean up space</button>
             </div>

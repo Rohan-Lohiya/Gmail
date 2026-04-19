@@ -10,11 +10,13 @@ import { MailListItem } from "@/components/gmail/mail-list-item";
 import { MobileBottomNav } from "@/components/gmail/mobile-bottom-nav";
 import { MobileScreen } from "@/components/gmail/mobile-screen";
 import { useMailsStore } from "@/hooks/use-mails-store";
+import { useProfileImageStore } from "@/hooks/use-profile-image-store";
 
 export function GmailHomeView() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const { mails, firstMail } = useMailsStore();
+  const { mails } = useMailsStore();
+  const { profileImageUrl } = useProfileImageStore();
 
   return (
     <MobileScreen>
@@ -30,7 +32,7 @@ export function GmailHomeView() {
 
         <HomeAppBar
           onOpenDrawer={() => setDrawerOpen(true)}
-          profileImageUrl={firstMail?.avatar.imageUrl}
+          profileImageUrl={profileImageUrl || undefined}
         />
         <InboxToolbar
           isMenuOpen={menuOpen}

@@ -91,7 +91,7 @@ export function GmailNavigationDrawer({ open, onClose }: GmailNavigationDrawerPr
         className={`absolute left-0 top-0 h-full w-[84%] max-w-[340px] bg-[#202124] pb-4 pt-2 shadow-[10px_0_24px_rgba(0,0,0,0.45)] transition-transform ${open ? "translate-x-0" : "-translate-x-full"}`}
       >
         <div className="flex items-center justify-between px-5 py-3">
-          <h2 className="text-[1.55rem] font-medium text-[#ea4335]">Gmail</h2>
+          <h2 className="text-[1.55rem] font-medium text-gmail-text">Gmail</h2>
           <button
             type="button"
             aria-label="Close"

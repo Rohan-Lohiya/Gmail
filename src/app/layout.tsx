@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Roboto } from "next/font/google";
 import "./globals.css";
 
@@ -9,13 +9,19 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
-  title: "Gmail Mobile Clone",
+  title: "Gmail",
   description: "Gmail-like mobile interface in Next.js",
   icons: {
     icon: "/gmail.png",
     shortcut: "/gmail.png",
     apple: "/gmail.png",
   },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
 };
 
 export default function RootLayout({

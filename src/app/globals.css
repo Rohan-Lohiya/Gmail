@@ -25,6 +25,13 @@ body {
   font-family: var(--font-roboto), sans-serif;
 }
 
+html,
+body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 * {
   -webkit-tap-highlight-color: transparent;
 }

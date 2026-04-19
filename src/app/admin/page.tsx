@@ -6,6 +6,7 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { MobileScreen } from "@/components/gmail/mobile-screen";
 import { FIRST_MAIL_ID } from "@/data/mails";
 import { useMailsStore } from "@/hooks/use-mails-store";
+import { useProfileImageStore } from "@/hooks/use-profile-image-store";
 import type { MailItem } from "@/types/mail";
 
 interface FormState {
@@ -17,14 +18,14 @@ interface FormState {
   pdfUrl: string;
 }
 
-function buildFormState(mail: MailItem): FormState {
+function buildFormState(mail: MailItem, profileImageUrl: string): FormState {
   const pdfAttachment = mail.attachments.find((attachment) => attachment.type === "pdf");
 
   return {
     recipientName: mail.recipientName ?? "",
     sender: mail.sender,
     date: mail.date,
-    avatarUrl: mail.avatar.imageUrl ?? "",
+    avatarUrl: profileImageUrl,
     pdfName: pdfAttachment?.name ?? "",
     pdfUrl: pdfAttachment?.url ?? "",
   };
@@ -32,12 +33,14 @@ function buildFormState(mail: MailItem): FormState {
 
 function AdminFirstMailForm({
   firstMail,
+  profileImageUrl,
   onSave,
 }: {
   firstMail: MailItem;
+  profileImageUrl: string;
   onSave: (state: FormState) => void;
 }) {
-  const [formState, setFormState] = useState<FormState>(() => buildFormState(firstMail));
+  const [formState, setFormState] = useState<FormState>(() => buildFormState(firstMail, profileImageUrl));
   const [statusText, setStatusText] = useState("");
 
   function onFieldChange(field: keyof FormState, value: string) {
@@ -188,6 +191,7 @@ function AdminFirstMailForm({
 
 export default function AdminPage() {
   const { firstMail, ready, updateFirstMail } = useMailsStore();
+  const { profileImageUrl, setProfileImageUrl } = useProfileImageStore();
 
   return (
     <MobileScreen>
@@ -211,17 +215,18 @@ export default function AdminPage() {
           <p className="text-gmail-secondary">Loading mailbox...</p>
         ) : (
           <AdminFirstMailForm
-            key={`${firstMail.id}:${firstMail.sender}:${firstMail.date}`}
+            key={`${firstMail.id}:${firstMail.sender}:${firstMail.date}:${profileImageUrl}`}
             firstMail={firstMail}
+            profileImageUrl={profileImageUrl}
             onSave={(state) => {
               updateFirstMail({
                 recipientName: state.recipientName,
                 sender: state.sender,
                 date: state.date,
-                avatarUrl: state.avatarUrl,
                 pdfName: state.pdfName,
                 pdfUrl: state.pdfUrl,
               });
+              setProfileImageUrl(state.avatarUrl);
             }}
           />
         )}

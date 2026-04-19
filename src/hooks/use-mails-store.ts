@@ -20,7 +20,6 @@ export interface FirstMailCustomization {
   recipientName: string;
   sender: string;
   date: string;
-  avatarUrl?: string;
   pdfName?: string;
   pdfUrl?: string;
 }
@@ -107,12 +106,24 @@ function notifyMailsChanged() {
   }
 }
 
+function sanitizeMailsForStorage(mails: MailItem[]): MailItem[] {
+  return mails.map((mail) => ({
+    ...mail,
+    avatar: {
+      variant: mail.avatar.variant,
+      value: mail.avatar.value,
+      bgColor: mail.avatar.bgColor,
+      textColor: mail.avatar.textColor,
+    },
+  }));
+}
+
 function writeMailsToStorage(mails: MailItem[]) {
   if (typeof window === "undefined") {
     return;
   }
 
-  const sorted = sortMailsByDate(mails);
+  const sorted = sortMailsByDate(sanitizeMailsForStorage(mails));
   const serialized = JSON.stringify(sorted);
 
   cachedRaw = serialized;
@@ -149,7 +160,6 @@ export function useMailsStore() {
       const sender = customization.sender.trim() || mail.sender;
       const recipientName = customization.recipientName.trim() || mail.recipientName || "Rohan";
       const date = customization.date.trim() || mail.date;
-      const avatarUrl = customization.avatarUrl?.trim();
 
       const currentPdf = findPdfAttachment(mail.attachments);
       const pdfAttachment: MailAttachment = {
@@ -173,10 +183,6 @@ export function useMailsStore() {
         subject: buildFirstMailSubject(sender),
         preview: buildFirstMailPreview(sender),
         body: buildFirstMailBody(recipientName, sender),
-        avatar: {
-          ...mail.avatar,
-          imageUrl: avatarUrl || undefined,
-        },
         attachments: [pdfAttachment],
       };
     });

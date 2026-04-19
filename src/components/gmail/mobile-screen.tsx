@@ -6,8 +6,8 @@ interface MobileScreenProps {
 
 export function MobileScreen({ children }: MobileScreenProps) {
   return (
-    <div className="min-h-screen bg-gmail-bg">
-      <div className="relative mx-auto flex min-h-screen w-full max-w-[430px] flex-col bg-gmail-bg shadow-[0_0_0_1px_rgba(255,255,255,0.05)]">
+    <div className="min-h-dvh w-full overflow-x-hidden bg-gmail-bg">
+      <div className="relative mx-auto flex min-h-dvh w-full max-w-[430px] flex-col overflow-x-hidden bg-gmail-bg shadow-[0_0_0_1px_rgba(255,255,255,0.05)]">
         {children}
       </div>
     </div>

@@ -10,7 +10,6 @@ export interface MailAttachment {
 export interface MailAvatar {
   variant: "default" | "letter";
   value?: string;
-  imageUrl?: string;
   bgColor: string;
   textColor?: string;
 }
